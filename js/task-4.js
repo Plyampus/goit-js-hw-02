@@ -1,4 +1,4 @@
-function getShippingCost(country) {
+function getShippingCost(country, customerCredits) {
     let price;
     switch (country) {
         case "China":
@@ -14,9 +14,15 @@ function getShippingCost(country) {
             price = 120;
             break;
         default:
-            return "Sorry, we don't offer shipping to that country.";
+            return `Sorry, we don't offer shipping to that country.`;
     }
-    return `Shipping to ${country} will cost ${price} credits.`;
+
+    const totalPrice = price - customerCredits;
+    if (totalPrice <= 0) {
+        return `Sorry, we don't offer shipping to ${country}.`;
+    } else {
+        return `You have insufficient credits to cover the shipping cost.`;
+    }
 }
 
 console.log(getShippingCost("China")); // Shipping to China will cost 100 credits.
